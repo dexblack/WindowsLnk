@@ -1,1 +1,6 @@
-struct TestData { static char const* const SolutionDir { "Run ..\\writeSolutionDirHeader.cmd"}; };
+#include <string>
+
+struct TestData
+{
+  static std::string const SolutionDir;
+};
