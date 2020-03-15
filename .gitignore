@@ -261,3 +261,4 @@ __pycache__/
 *.pyc
 /lnk_parser_cmd
 /WindowsLnk.code-workspace
+*.dat
