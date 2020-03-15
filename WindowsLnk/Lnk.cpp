@@ -85,13 +85,50 @@ bool Lnk::isValid() const
   return true;
 }
 
+std::istream& operator>>(std::istream& input, FILETIME& ft)
+{
+  input >> ft.dwLowDateTime >> ft.dwHighDateTime;
+  return input;
+}
+
+class istream_reader
+{
+  std::istream& rInput;
+public:
+  istream_reader(std::istream& input)
+    : rInput(input)
+  {}
+
+  template <typename T> istream_reader& read(T& t)
+  {
+    rInput.read(reinterpret_cast<char*>(&t), sizeof(T));
+    return *this;
+  }
+};
 
 // Read .LNK data from stream.
 // Parse and validate.
 //
 std::istream& operator>>(std::istream& input, Lnk& lnk)
 {
-  input >> lnk.header.size >> lnk.header.clsid;
+  LnkHeader& rLnkHdr(lnk.header);
+  istream_reader isr(input);
+  isr
+    .read(rLnkHdr.size)
+    .read(rLnkHdr.clsid)
+    .read(rLnkHdr.link_flags)
+    .read(rLnkHdr.file_attrib)
+    .read(rLnkHdr.creation_time)
+    .read(rLnkHdr.access_time)
+    .read(rLnkHdr.write_time)
+    .read(rLnkHdr.file_size)
+    .read(rLnkHdr.icon_index)
+    .read(rLnkHdr.show_command)
+    .read(rLnkHdr.hot_key)
+    .read(rLnkHdr.Reserved1)
+    .read(rLnkHdr.Reserved2)
+    .read(rLnkHdr.Reserved3);
+
   return input;
 }
 
