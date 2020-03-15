@@ -7,10 +7,12 @@
 #include <stdexcept>
 #include <vector>
 #include "Lnk.hpp"
+#include "CLSID.hpp"
+
 
 // 00021401-0000-0000-C000-000000000046
 const CLSID LnkHeader::cLnkCLSID
-{ 0x00021401, 0x0000, 0x0000, { 0x00, 0xc0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46} };
+{ 0x00021401, 0x0000, 0x0000, { 0xc0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46} };
 
 
 // Base class LnkHeader takes care of basic initialisation.
@@ -82,3 +84,14 @@ bool Lnk::isValid() const
 
   return true;
 }
+
+
+// Read .LNK data from stream.
+// Parse and validate.
+//
+std::istream& operator>>(std::istream& input, Lnk& lnk)
+{
+  input >> lnk.header.size >> lnk.header.clsid;
+  return input;
+}
+

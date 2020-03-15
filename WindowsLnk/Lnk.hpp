@@ -4,6 +4,11 @@
 // 9/12/2018	5.0	Major
 //
 #include <inttypes.h>
+#include <istream>
+// Windows headers
+#include <guiddef.h>
+#include <minwindef.h>
+
 #if defined(LNK_DLL)
 # define LnkDllPort   __declspec( dllexport )
 #else
@@ -11,7 +16,8 @@
 #endif
 
 
-// 
+// Shell .LNK file binary format.
+//
 struct LnkDllPort LnkHeader
 {
   // Required header size.
@@ -20,12 +26,12 @@ struct LnkDllPort LnkHeader
 
   uint32_t size = cRequiredSize;
   CLSID    clsid = cLnkCLSID;
-  uint32_t link_flags;
-  uint32_t file_attrib;
-  FILETIME creation_time;
-  FILETIME access_time;
-  FILETIME write_time;
-  uint32_t file_size;
+  uint32_t link_flags{ 0UL };
+  uint32_t file_attrib{ 0UL };
+  FILETIME creation_time{ 0UL, 0UL };
+  FILETIME access_time{ 0UL, 0UL };
+  FILETIME write_time{ 0UL, 0UL };
+  uint32_t file_size{ 0UL };
   uint32_t icon_index = 0;
   uint32_t show_command = SW_SHOWNORMAL;
   uint16_t hot_key = 0;
@@ -49,9 +55,13 @@ public:
   Lnk();
   bool isValid() const;
 
+  LnkDllPort friend std::istream& operator>>(std::istream& input, Lnk& lnk);
+
 private:
   bool isValidHeaderSize() const;
   bool isValidCLSID() const;
   bool isValidShowCommand() const;
   bool isValidReserved() const;
 };
+
+LnkDllPort std::istream& operator>>(std::istream& input, Lnk& lnk);

@@ -24,6 +24,15 @@
     <ClInclude Include="Lnk.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CLSID.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkFileAttributes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkFlags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -33,6 +42,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Lnk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CLSID.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

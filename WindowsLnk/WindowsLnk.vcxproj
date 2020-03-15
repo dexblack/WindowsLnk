@@ -151,11 +151,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CLSID.hpp" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="LinkFileAttributes.h" />
+    <ClInclude Include="LinkFlags.h" />
     <ClInclude Include="Lnk.hpp" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CLSID.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Lnk.cpp" />
     <ClCompile Include="pch.cpp">
