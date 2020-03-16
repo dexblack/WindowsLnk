@@ -9,13 +9,13 @@
 #include <guiddef.h>
 #include <minwindef.h>
 
-#if defined(LNK_DLL)
-# define LnkDllPort   __declspec( dllexport )
-#else
-# define LnkDllPort __declspec( dllimport )
-#endif
+#include "LnkDllPort.h"
+#include "LinkFlags.h"
+#include "LinkFileAttributes.h"
+#include "IDList.hpp"
 
 
+#pragma pack(push, 1)
 // Shell .LNK file binary format.
 //
 struct LnkDllPort LnkHeader
@@ -26,8 +26,16 @@ struct LnkDllPort LnkHeader
 
   uint32_t size = cRequiredSize;
   CLSID    clsid = cLnkCLSID;
-  uint32_t link_flags{ 0UL };
-  uint32_t file_attrib{ 0UL };
+  union
+  {
+    uint32_t link_flags{ 0UL };
+    LinkFlags flags;
+  };
+  union
+  {
+    uint32_t file_attributes{ 0UL };
+    LinkFileAttributes attributes;
+  };
   FILETIME creation_time{ 0UL, 0UL };
   FILETIME access_time{ 0UL, 0UL };
   FILETIME write_time{ 0UL, 0UL };
@@ -40,6 +48,8 @@ struct LnkDllPort LnkHeader
   uint32_t Reserved3 = 0;
 };
 
+#pragma pack(pop)
+
 
 // Contains all the potential instantiated elements
 // resulting from parsing an arbitrary .LNK file.
@@ -50,6 +60,7 @@ class LnkDllPort Lnk
 {
 private:
   LnkHeader header;
+  IDList idList;
 
 public:
   Lnk();
@@ -60,6 +71,7 @@ public:
 private:
   bool isValidHeaderSize() const;
   bool isValidCLSID() const;
+  bool isValidFileAttribs() const;
   bool isValidShowCommand() const;
   bool isValidReserved() const;
 };

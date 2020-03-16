@@ -6,6 +6,21 @@
 
 namespace TestLnk
 {
+  TEST(LnkHeader, sizeCheck)
+  {
+    union
+    {
+      uint32_t file_attributes{ 0UL };
+      LinkFileAttributes attributes;
+    } x;
+    EXPECT_EQ(sizeof(x.attributes), sizeof(x.file_attributes));
+  }
+  TEST(LnkHeader, correctSize)
+  {
+    EXPECT_EQ(sizeof(LnkHeader), LnkHeader::cRequiredSize)
+      << "LnkHeader size changed?!";
+  }
+
   TEST(Lnk, isValid)
   {
     Lnk lnk;
