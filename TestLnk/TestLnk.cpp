@@ -30,14 +30,22 @@ namespace TestLnk
   TEST(Lnk, parse)
   {
     std::string const testDir{ TestData::SolutionDir + "TestData\\" };
-    std::string const testFile{ testDir + "20151027_095211.jpg.lnk" };
+    std::vector<std::string> const testFiles
+    {
+      testDir + "20151027_095211.jpg.lnk",
+      testDir + "IEEE Web Renewal 2007-8.htm.lnk",
+      testDir + "Loading.ico.lnk"
+    };
 
-    std::ifstream ifsLnk(testFile, std::ifstream::binary);
-    ASSERT_TRUE(ifsLnk.good()) << "Failed to open test file: " << testFile;
+    for (std::string const& testFile : testFiles)
+    {
+      std::ifstream ifsLnk(testFile, std::ifstream::binary);
+      ASSERT_TRUE(ifsLnk.good()) << "Failed to open test file: " << testFile;
 
-    Lnk lnk;
-    ifsLnk >> lnk;
+      Lnk lnk;
+      ifsLnk >> lnk;
 
-    EXPECT_TRUE(lnk.isValid());
+      EXPECT_TRUE(lnk.isValid());
+    }
   }
 }
