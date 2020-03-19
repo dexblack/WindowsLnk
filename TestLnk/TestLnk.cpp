@@ -2,7 +2,6 @@
 #include <fstream>
 #include "Lnk.hpp"
 #include "SolutionDir.h"
-#include <share.h>
 
 namespace TestLnk
 {
@@ -32,14 +31,14 @@ namespace TestLnk
     std::string const testDir{ TestData::SolutionDir + "TestData\\" };
     std::vector<std::string> const testFiles
     {
-      testDir + "20151027_095211.jpg.lnk",
-      testDir + "IEEE Web Renewal 2007-8.htm.lnk",
-      testDir + "Loading.ico.lnk"
+      "20151027_095211.jpg",
+      "IEEE Web Renewal 2007-8.htm",
+      "Loading.ico"
     };
 
     for (std::string const& testFile : testFiles)
     {
-      std::ifstream ifsLnk(testFile, std::ifstream::binary);
+      std::ifstream ifsLnk(testDir + testFile + ".lnk", std::ifstream::binary);
       ASSERT_TRUE(ifsLnk.good()) << "Failed to open test file: " << testFile;
 
       Lnk lnk;

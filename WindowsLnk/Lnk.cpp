@@ -4,8 +4,10 @@
 // 9/12/2018	5.0	Major
 //
 #include "pch.h"
+
 #include <stdexcept>
 #include <vector>
+
 #include "Lnk.hpp"
 #include "CLSID.hpp"
 #include "istream_reader.hpp"

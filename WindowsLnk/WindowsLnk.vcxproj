@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="base_types.h" />
     <ClInclude Include="CLSID.hpp" />
+    <ClInclude Include="CLSID_Name.hpp" />
     <ClInclude Include="istream_reader.hpp" />
     <ClInclude Include="LnkDllPort.h" />
     <ClInclude Include="framework.h" />
@@ -161,9 +162,11 @@
     <ClInclude Include="LinkFlags.h" />
     <ClInclude Include="Lnk.hpp" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="ItemIDList.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CLSID.cpp" />
+    <ClCompile Include="CLSID_Name.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="IDList.cpp" />
     <ClCompile Include="Lnk.cpp" />
@@ -173,6 +176,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ItemIDList.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

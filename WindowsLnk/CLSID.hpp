@@ -1,5 +1,5 @@
 #pragma once
 #include <istream>
-#include <combaseapi.h>
+#include <guiddef.h>
 
 std::istream& operator>>(std::istream& input, CLSID& clsid);

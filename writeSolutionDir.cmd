@@ -1,4 +1,5 @@
 @echo off
+set status=0
 setlocal EnableExtensions 
 set output_dir=%~dp0
 set output_file_prefix=%output_dir%TestLnk\SolutionDir
@@ -19,8 +20,10 @@ rem echo Unchanged
 if exist %output_file_new% del %output_file_new% >NUL
 goto :END
 :CHANGED
-echo Replacing "%output_file%"
+set status=1
+rem echo Replacing "%output_file%"
 del "%output_file%" >NUL
 move "%output_file_new%" "%output_file%" >NUL
 :END
+exit /b %status%
 endlocal

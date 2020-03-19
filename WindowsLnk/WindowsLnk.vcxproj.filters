@@ -45,6 +45,12 @@
     <ClInclude Include="istream_reader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ItemIDList.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CLSID_Name.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -60,6 +66,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="IDList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemIDList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CLSID_Name.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
