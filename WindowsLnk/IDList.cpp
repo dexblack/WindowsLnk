@@ -13,7 +13,8 @@ LnkDllPort std::istream& operator>>(std::istream& input, IDList& my)
   {
     for (isr.read(n); input.good() && n > sizeof(uint16_t); isr.read(n))
     {
-      IDList::ItemID item(n, IDList::ItemID::value_type());
+      n -= sizeof(uint16_t);
+      ItemID item(n, ItemID::value_type());
       input.read(reinterpret_cast<char*>(item.data()), n);
       my.itemIDs.push_back(item);
     }
