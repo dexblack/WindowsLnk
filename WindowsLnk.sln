@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestLnk", "TestLnk\TestLnk.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WindowsLnk", "WindowsLnk\WindowsLnk.vcxproj", "{6F0A02C7-6F6F-4B79-B7D6-EFDCE2B37C64}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Scripts", "Scripts\Scripts.vcxitems", "{EA01EEF6-650E-4495-B1B6-88A9CED0EE39}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
