@@ -11,9 +11,14 @@
 
 // add headers that you want to pre-compile here
 #include "framework.h"
-//#include <istream>
+
+#include <istream>
 #include <stdexcept>
 //#include <memory>
 #include <vector>
+
+#include <assert.h>
+
+#include <guiddef.h>
 
 #endif //PCH_H

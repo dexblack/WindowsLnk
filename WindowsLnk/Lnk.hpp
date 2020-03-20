@@ -4,14 +4,20 @@
 // 9/12/2018	5.0	Major
 //
 #include <inttypes.h>
-#if defined(LNK_DLL)
-# define LnkDllPort   __declspec( dllexport )
-#else
-# define LnkDllPort __declspec( dllimport )
-#endif
+#include <istream>
+// Windows headers
+#include <guiddef.h>
+#include <minwindef.h>
+
+#include "LnkDllPort.h"
+#include "LinkFlags.h"
+#include "LinkFileAttributes.h"
+#include "IDList.hpp"
 
 
-// 
+#pragma pack(push, 1)
+// Shell .LNK file binary format.
+//
 struct LnkDllPort LnkHeader
 {
   // Required header size.
@@ -20,12 +26,20 @@ struct LnkDllPort LnkHeader
 
   uint32_t size = cRequiredSize;
   CLSID    clsid = cLnkCLSID;
-  uint32_t link_flags;
-  uint32_t file_attrib;
-  FILETIME creation_time;
-  FILETIME access_time;
-  FILETIME write_time;
-  uint32_t file_size;
+  union
+  {
+    uint32_t link_flags{ 0UL };
+    LinkFlags flags;
+  };
+  union
+  {
+    uint32_t file_attributes{ 0UL };
+    LinkFileAttributes attributes;
+  };
+  FILETIME creation_time{ 0UL, 0UL };
+  FILETIME access_time{ 0UL, 0UL };
+  FILETIME write_time{ 0UL, 0UL };
+  uint32_t file_size{ 0UL };
   uint32_t icon_index = 0;
   uint32_t show_command = SW_SHOWNORMAL;
   uint16_t hot_key = 0;
@@ -33,6 +47,8 @@ struct LnkDllPort LnkHeader
   uint32_t Reserved2 = 0;
   uint32_t Reserved3 = 0;
 };
+
+#pragma pack(pop)
 
 
 // Contains all the potential instantiated elements
@@ -44,14 +60,20 @@ class LnkDllPort Lnk
 {
 private:
   LnkHeader header;
+  IDList idList;
 
 public:
   Lnk();
   bool isValid() const;
 
+  LnkDllPort friend std::istream& operator>>(std::istream& input, Lnk& lnk);
+
 private:
   bool isValidHeaderSize() const;
   bool isValidCLSID() const;
+  bool isValidFileAttribs() const;
   bool isValidShowCommand() const;
   bool isValidReserved() const;
 };
+
+LnkDllPort std::istream& operator>>(std::istream& input, Lnk& lnk);

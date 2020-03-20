@@ -1,0 +1,6 @@
+#!/bin/sh
+git ls-files -m --error-unmatch TestLnk/SolutionDir.cpp
+if [[ $? = 0 ]]
+then git checkout -- TestLnk/SolutionDir.cpp
+else exit 0
+fi
