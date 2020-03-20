@@ -7,6 +7,11 @@
 #include "LnkDllPort.h"
 
 
+// Stream reader wrapper class.
+// This is a small intermediate step implementing
+// the basic SHITEMID block reading rules.
+// Parsing the data in detail comes later.
+//
 struct IDList
 {
   // sizeof(uint16_t) * 2 + sum of all item sizes

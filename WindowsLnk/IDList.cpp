@@ -3,15 +3,14 @@
 #include "IDList.hpp"
 #include "istream_reader.hpp"
 
-
 LnkDllPort std::istream& operator>>(std::istream& input, IDList& my)
 {
-  istream_reader isr(input);
+  istream_reader ir(input);
   uint16_t n = 0U;
-  isr.read(n);
+  ir(n);
   if (n > IDList::min_size)
   {
-    for (isr.read(n); input.good() && n > sizeof(uint16_t); isr.read(n))
+    for (ir(n); input.good() && n > sizeof(uint16_t); ir(n))
     {
       n -= sizeof(uint16_t);
       ItemID item(n, ItemID::value_type());

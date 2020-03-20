@@ -10,15 +10,15 @@
 #define LNK_DLL
 
 // add headers that you want to pre-compile here
-#include "framework.h"
 
 #include <istream>
 #include <stdexcept>
 //#include <memory>
 #include <vector>
+#include <string>
 
 #include <assert.h>
 
-#include <guiddef.h>
+#include "framework.h"
 
 #endif //PCH_H

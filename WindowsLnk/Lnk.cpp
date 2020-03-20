@@ -11,6 +11,7 @@
 #include "Lnk.hpp"
 #include "CLSID.hpp"
 #include "istream_reader.hpp"
+#include "ItemIDList.hpp"
 
 
 // 00021401-0000-0000-C000-000000000046
@@ -22,6 +23,8 @@ const CLSID LnkHeader::cLnkCLSID
 //
 Lnk::Lnk()
   : header()
+  , idList()
+  , shItemIds()
 {}
 
 // Fixed size required.
@@ -31,7 +34,7 @@ bool Lnk::isValidHeaderSize() const
   return LnkHeader::cRequiredSize == sizeof(header);
 }
 
-// Must a fixed CLSID.
+// Must be a fixed CLSID.
 bool Lnk::isValidCLSID() const
 {
   return LnkHeader::cLnkCLSID == header.clsid;
@@ -112,6 +115,7 @@ bool Lnk::isValid() const
   return true;
 }
 
+// FILETIME stream input.
 std::istream& operator>>(std::istream& input, FILETIME& ft)
 {
   input >> ft.dwLowDateTime >> ft.dwHighDateTime;
@@ -125,26 +129,26 @@ std::istream& operator>>(std::istream& input, FILETIME& ft)
 std::istream& operator>>(std::istream& input, Lnk& lnk)
 {
   LnkHeader& rLnkHdr(lnk.header);
-  istream_reader isr(input);
-  isr
-    .read(rLnkHdr.size)
-    .read(rLnkHdr.clsid)
-    .read(rLnkHdr.link_flags)
-    .read(rLnkHdr.file_attributes)
-    .read(rLnkHdr.creation_time)
-    .read(rLnkHdr.access_time)
-    .read(rLnkHdr.write_time)
-    .read(rLnkHdr.file_size)
-    .read(rLnkHdr.icon_index)
-    .read(rLnkHdr.show_command)
-    .read(rLnkHdr.hot_key)
-    .read(rLnkHdr.Reserved1)
-    .read(rLnkHdr.Reserved2)
-    .read(rLnkHdr.Reserved3);
+  istream_reader ir(input);
+  ir(rLnkHdr.size)
+    (rLnkHdr.clsid)
+    (rLnkHdr.link_flags)
+    (rLnkHdr.file_attributes)
+    (rLnkHdr.creation_time)
+    (rLnkHdr.access_time)
+    (rLnkHdr.write_time)
+    (rLnkHdr.file_size)
+    (rLnkHdr.icon_index)
+    (rLnkHdr.show_command)
+    (rLnkHdr.hot_key)
+    (rLnkHdr.Reserved1)
+    (rLnkHdr.Reserved2)
+    (rLnkHdr.Reserved3);
 
   if (rLnkHdr.flags.hasLinkTargetIDList)
   {
     input >> lnk.idList;
+    ShItemType itIs = parsePIDL(lnk.idList.itemIDs, lnk.shItemIds);
   }
   //if (rLnkHdr.flags.)
   //{

@@ -4,6 +4,8 @@
 // Windows Header Files
 #include <windows.h>
 #include <Knownfolders.h>
+#include <guiddef.h>
+#include <WTypesbase.h>
 #include <combaseapi.h>
 
 #if defined(_WIN32) && !defined(OLE2ANSI)

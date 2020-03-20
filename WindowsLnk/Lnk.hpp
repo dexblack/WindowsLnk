@@ -3,16 +3,21 @@
 // Shell Link(.LNK) Binary File Format
 // 9/12/2018	5.0	Major
 //
-#include <inttypes.h>
+
+// Language headers
 #include <istream>
+#include <inttypes.h>
+
 // Windows headers
 #include <guiddef.h>
 #include <minwindef.h>
 
+// Project headers
 #include "LnkDllPort.h"
 #include "LinkFlags.h"
 #include "LinkFileAttributes.h"
 #include "IDList.hpp"
+#include "ItemIDList.hpp"
 
 
 #pragma pack(push, 1)
@@ -61,6 +66,7 @@ class LnkDllPort Lnk
 private:
   LnkHeader header;
   IDList idList;
+  ShItemIDs shItemIds;
 
 public:
   Lnk();

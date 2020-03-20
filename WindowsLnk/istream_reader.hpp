@@ -13,7 +13,7 @@ public:
     : rInput(input)
   {}
 
-  template <typename T> istream_reader& read(T& t)
+  template <typename T> istream_reader& operator()(T& t)
   {
     rInput.read(reinterpret_cast<char*>(&t), sizeof(T));
     return *this;
