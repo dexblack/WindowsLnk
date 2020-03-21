@@ -1,7 +1,16 @@
 #include "pch.h"
+
 #include <fstream>
+#include <limits>
+
+#include <assert.h>
+
+#include <ShlObj.h>
+
 #include "Lnk.hpp"
 #include "SolutionDir.h"
+#include "string_convert.h"
+
 
 namespace TestLnk
 {
@@ -50,13 +59,19 @@ namespace TestLnk
 
     for (auto const& testFile : testFiles)
     {
+      Lnk lnk;
+
       std::ifstream ifsLnk(testDir + testFile + ".lnk", std::ifstream::binary);
       ASSERT_TRUE(ifsLnk.good()) << "Failed to open test file: " << testFile;
 
-      Lnk lnk;
       ifsLnk >> lnk;
 
       EXPECT_TRUE(lnk.isValid());
+
+#ifdef _DEBUG
+      std::wcout << lnk;
+#endif
     }
   }
+
 }

@@ -29,6 +29,8 @@ struct LnkDllPort LnkHeader
   static const uint16_t cRequiredSize = 0x4C;
   static const CLSID cLnkCLSID;
 
+  std::istream& operator>>(std::istream& input);
+
   uint32_t size = cRequiredSize;
   CLSID    clsid = cLnkCLSID;
   union
@@ -53,7 +55,12 @@ struct LnkDllPort LnkHeader
   uint32_t Reserved3 = 0;
 };
 
+std::istream& operator>>(std::istream& input, LnkHeader& lnkHeader);
+
 #pragma pack(pop)
+
+#pragma warning(push)
+#pragma warning(disable : 4251)
 
 
 // Contains all the potential instantiated elements
@@ -64,22 +71,40 @@ struct LnkDllPort LnkHeader
 class LnkDllPort Lnk
 {
 private:
-  LnkHeader header;
-  IDList idList;
-  ShItemIDs shItemIds;
+  LnkHeader header;       // Initial fixed size header block.
+  IDList idList;          // Variable length chain of link details.
+  bool hasShellPath;      // Parsing result.
+  std::wstring wsPath;    // Parsed file system path.
+  ShItemIDs shItemIds;    // Parsed IDList elements.
 
 public:
   Lnk();
+
+  // Validation of header block
+  // and possibly some other elements.
   bool isValid() const;
 
+  // Binary stream reader.
   LnkDllPort friend std::istream& operator>>(std::istream& input, Lnk& lnk);
 
+  // Wide stream output.
+  // Stick with UTF16 for all the output.
+  LnkDllPort friend std::wostream& operator<<(std::wostream& output, Lnk& lnk);
+
+  // Validation related member functions.
+  CLSID const& getCLSID() const;
+  bool isShortCut() const;
+
 private:
+  // Internal validation related member functions.
   bool isValidHeaderSize() const;
-  bool isValidCLSID() const;
   bool isValidFileAttribs() const;
   bool isValidShowCommand() const;
   bool isValidReserved() const;
 };
 
+#pragma warning(pop)
+
+// Stream I/O operations.
 LnkDllPort std::istream& operator>>(std::istream& input, Lnk& lnk);
+LnkDllPort std::wostream& operator<<(std::wostream& output, Lnk& lnk);

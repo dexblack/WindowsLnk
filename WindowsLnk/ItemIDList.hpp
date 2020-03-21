@@ -52,7 +52,7 @@ struct ShItemID
   ShItemType itIs; // Union type selector. Not using variant type here (yet).
 
   friend ShItemType parseShItemID(ItemID const& ids, ShItemID& shItemId);
-  friend ShItemType parsePIDL(ItemIDs const& ids, ShItemIDs& shItemIds);
+  friend ShItemType parsePIDL(IDList const& ids, ShItemIDs& shItemIds);
 
 private:
   union {
@@ -74,5 +74,7 @@ struct LnkDllPort ShItemIDs
 
 // Parser functions to generate a collection of ShItemIDs.
 //
+bool getPathFromIDList(std::istream& input, std::streampos size, std::wstring& wsPath);
+
 ShItemType parseShItemID(ItemID const& ids, ShItemID& shItemId);
-ShItemType parsePIDL(ItemIDs const& ids, ShItemIDs& shItemIds);
+ShItemType parsePIDL(IDList const& ids, ShItemIDs& shItemIds);

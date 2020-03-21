@@ -10,8 +10,12 @@
 // oh and my moniker?  dex@dexblack.net
 //
 #include "pch.h"
+
 #include <iostream>
 #include <iomanip>
+
+#include <assert.h>
+#include <ShlObj.h>
 
 #include "IDList.hpp"
 #include "ItemIDList.hpp"
@@ -21,7 +25,7 @@
 // Parse ItemID objects from the raw bytes read from LNK.
 //
 ShItemType parsePIDL(
-  ItemIDs const& ids,   // Raw bytes input blocks.
+  IDList const& ids,   // Raw bytes input blocks.
   ShItemIDs& shItemIds // parsed Shell Items.
 )
 {
@@ -58,48 +62,70 @@ ShItemType parsePIDL(
 }
 
 
-#if defined(_DEBUG)
-// A hex dump of the raw bytes in the SHITEMID data.
-//
-void dumpItemID(ItemID const& id)
+bool getPathFromIDList(
+  std::istream &input, std::streampos size, std::wstring& wsPath)
 {
-  std::cout << std::setw(5) << id.size() << ": "
-    << std::hex << std::uppercase << std::endl;
+  // Save read position, to restore it later.
+  std::streampos pos = input.tellg();
+  assert(pos > size);
+  assert(size <= std::numeric_limits<std::streamoff>::max());
+  input.seekg(pos - static_cast<std::streampos>(size));
 
-  for (auto const b : id)
+  std::vector<char> file_buffer(size, 0);
+  input.read(&file_buffer[0], size);
+  wsPath.resize(size, std::wstring::value_type());
+  BOOL result = SHGetPathFromIDListEx(
+    reinterpret_cast<LPCITEMIDLIST>(&file_buffer[0]),
+    wsPath.data(),
+    static_cast<DWORD>(size),
+    GPFIDL_DEFAULT
+  );
+  // Restore read position to where it was.
+  input.seekg(pos);
+
+  // Calculate the string's actual length and truncate.
+  size = 0UL;
+  for (auto it = wsPath.begin(); ; ++it)
   {
-    std::cout << int((b & 0xF0) >> 4) << int(b & 0xF) << " ";
+    if (*it == std::wstring::value_type())
+    {
+      size = it - wsPath.begin();
+      break;
+    }
   }
-  std::cout << std::endl << std::dec << std::nouppercase;
-  for (auto const b : id)
-  {
-    std::cout << std::setw(2) << b << " ";
-  }
-  std::cout << std::endl << "----" << std::endl;
+  wsPath.resize(size);
+  return TRUE == result;
 }
-#endif
-
 
 ShItemType parseShItemID(ItemID const& id, ShItemID& shItemId)
 {
-#if defined(_DEBUG)
-  dumpItemID(id);
-#endif
-
+  auto const uint16_t_size(sizeof(uint16_t));
   ShItemType shItemType = ShItemType::itIsUnknown;
   // First step let's have a look at
   // the bytes of the first block data.
   // Decide what it might be from the first byte.
   if (id[1] == 0x50 && id[0] == 0x1F
-    && id.size() == sizeof(CLSID) + 2)
+    && id.size() == sizeof(CLSID) + uint16_t_size)
   {
     shItemId.itIs = ShItemType::itIsCLSID;
 
     ::memcpy_s(
       static_cast<void*>(&shItemId.clsid),
       sizeof(shItemId.clsid),
-      id.data() + 2,
-      id.size() - 2);
+      id.data() + uint16_t_size,
+      sizeof(shItemId.clsid));
+
+    std::cout << getCLSID_Name(shItemId.clsid).name << std::endl;
+  }
+  else if (id[1] == 0x00 && id[0] == 0x1F)
+  {
+    shItemId.itIs = ShItemType::itIsCLSID;
+
+    ::memcpy_s(
+      static_cast<void*>(&shItemId.clsid),
+      sizeof(shItemId.clsid),
+      id.data() + uint16_t_size,
+      sizeof(shItemId.clsid));
 
     std::cout << getCLSID_Name(shItemId.clsid).name << std::endl;
   }
@@ -110,7 +136,7 @@ ShItemType parseShItemID(ItemID const& id, ShItemID& shItemId)
     // Copy from second byte until 0x00 is found.
     auto b = id.begin();
     while (*b) ++b; // Count the first byte to allow for the null terminator.
-    std::size_t const len = b - id.begin();
+    size_t const len = b - id.begin();
     shItemId.file.path = (char*)::malloc(len);
     ::memcpy_s(static_cast<void*>(shItemId.file.path), len, &b[1], len);
   }
