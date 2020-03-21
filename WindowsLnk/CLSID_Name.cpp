@@ -2,7 +2,6 @@
 
 #include <assert.h>
 
-#include "framework.h"
 #include "CLSID_Name.hpp"
 
 // Makes CLSID_Name ctor possible.
@@ -64,8 +63,9 @@ CLSID_Name::CLSID_Name(
 {}
 
 #define CLSID_INST(name, clsid_string, name2) \
-static const CLSID_Name CLSID_##name{ clsid_string, #name, name2 }
+  CLSID_Name const CLSID_##name{ clsid_string, #name, name2 }
 
+CLSID_INST(ThisPC, "{20D04FE0-3AEA-1069-A2D8-08002B30309D}", "This PC");
 CLSID_INST(ControlPanel, "{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}", "Control Panel");
 CLSID_INST(ControlPanelAllTasks, "{ED7BA470-8E54-465E-825C-99712043E01C}", "Control Panel All Tasks");
 CLSID_INST(ControlPanelCategoryView, "{26EE0668-A00A-44D7-9371-BEB064C98683}", "Control Panel Category View");
@@ -79,7 +79,7 @@ CLSID_INST(NetworkConnections2, "{992CFFA0-F557-101A-88EC-00DD010CCC48}", "Netwo
 
 #define FOLDERID_1(name) CLSID_Name{ FOLDERID_##name, #name }
 #define FOLDERID_2(name1, desc) CLSID_Name{ FOLDERID_##name1, #name1, desc }
-#define CLSID_NAME(x) CLSID_Name{ CLSID_##x, #x }
+#define CLSID_NAME(x) CLSID_##x
 
 static std::vector<CLSID_Name> const clsid_names
 {
@@ -199,6 +199,7 @@ static std::vector<CLSID_Name> const clsid_names
   FOLDERID_2(Games, "Games"),
 
   // Other CLSIDs
+  CLSID_NAME(ThisPC),
   CLSID_NAME(ControlPanel),
   CLSID_NAME(ControlPanelAllTasks),
   CLSID_NAME(ControlPanelCategoryView),

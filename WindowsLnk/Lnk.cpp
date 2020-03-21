@@ -6,11 +6,13 @@
 #include "pch.h"
 
 #include <stdexcept>
+#include <iomanip>
 #include <vector>
 
 #include "Lnk.hpp"
 #include "CLSID.hpp"
 #include "istream_reader.hpp"
+#include "ItemIDList.hpp"
 
 
 // 00021401-0000-0000-C000-000000000046
@@ -21,7 +23,12 @@ const CLSID LnkHeader::cLnkCLSID
 // Base class LnkHeader takes care of basic initialisation.
 //
 Lnk::Lnk()
-  : header()
+  : lnkPath()
+  , header()
+  , idList()
+  , hasShellPath(false)
+  , targetPath()
+  , shItemIds()
 {}
 
 // Fixed size required.
@@ -29,12 +36,6 @@ Lnk::Lnk()
 bool Lnk::isValidHeaderSize() const
 {
   return LnkHeader::cRequiredSize == sizeof(header);
-}
-
-// Must a fixed CLSID.
-bool Lnk::isValidCLSID() const
-{
-  return LnkHeader::cLnkCLSID == header.clsid;
 }
 
 
@@ -95,7 +96,7 @@ bool Lnk::isValid() const
   std::vector<validity_condition> validity_conditions
   {
     { isValidHeaderSize(), "Invalid HeaderSize" },
-    { isValidCLSID(), "Invalid Lnk CLSID" },
+    { isShortCut(), "Invalid Lnk CLSID" },
     { isValidShowCommand(), "Invalid Show Command value" },
     { isValidReserved(), "Invalid Reserved bytes" },
     { isValidFileAttribs(), "Invalid File Attributes" },
@@ -112,39 +113,53 @@ bool Lnk::isValid() const
   return true;
 }
 
+// FILETIME stream input.
 std::istream& operator>>(std::istream& input, FILETIME& ft)
 {
   input >> ft.dwLowDateTime >> ft.dwHighDateTime;
   return input;
 }
 
+std::istream& LnkHeader::operator>>(std::istream& input)
+{
+  istream_reader ir(input);
+  ir(size)
+    (clsid)
+    (link_flags)
+    (file_attributes)
+    (creation_time)
+    (access_time)
+    (write_time)
+    (file_size)
+    (icon_index)
+    (show_command)
+    (hot_key)
+    (Reserved1)
+    (Reserved2)
+    (Reserved3);
+
+  return input;
+}
+
+std::istream& operator>>(std::istream& input, LnkHeader& lnkHeader)
+{
+  return lnkHeader.operator>>(input);
+}
 
 // Read .LNK data from stream.
 // Parse and validate.
 //
-std::istream& operator>>(std::istream& input, Lnk& lnk)
+LnkDllPort std::istream& operator>>(std::istream& input, Lnk& lnk)
 {
-  LnkHeader& rLnkHdr(lnk.header);
-  istream_reader isr(input);
-  isr
-    .read(rLnkHdr.size)
-    .read(rLnkHdr.clsid)
-    .read(rLnkHdr.link_flags)
-    .read(rLnkHdr.file_attributes)
-    .read(rLnkHdr.creation_time)
-    .read(rLnkHdr.access_time)
-    .read(rLnkHdr.write_time)
-    .read(rLnkHdr.file_size)
-    .read(rLnkHdr.icon_index)
-    .read(rLnkHdr.show_command)
-    .read(rLnkHdr.hot_key)
-    .read(rLnkHdr.Reserved1)
-    .read(rLnkHdr.Reserved2)
-    .read(rLnkHdr.Reserved3);
-
-  if (rLnkHdr.flags.hasLinkTargetIDList)
+  input >> lnk.header;
+  if (lnk.header.flags.hasLinkTargetIDList)
   {
     input >> lnk.idList;
+    lnk.hasShellPath = getPathFromIDList(input, lnk.idList.total_size, lnk.targetPath);
+    if (!lnk.hasShellPath)
+    {
+      ShItemType const itIs = parsePIDL(lnk.idList, lnk.shItemIds);
+    }
   }
   //if (rLnkHdr.flags.)
   //{
@@ -153,3 +168,65 @@ std::istream& operator>>(std::istream& input, Lnk& lnk)
   return input;
 }
 
+#if defined(_DEBUG)
+
+// A hex dump of the raw bytes in the SHITEMID data.
+//
+std::wostream& operator<<(std::wostream& output, ItemID const& id)
+{
+  output << std::setw(5) << id.size() << L": "
+    << std::hex << std::uppercase << std::endl;
+
+  for (auto const b : id)
+  {
+    output << int((b & 0xF0) >> 4) << int(b & 0xF) << L" ";
+  }
+  output << std::endl << std::dec << std::nouppercase;
+  for (auto const b : id)
+  {
+    output << std::setw(2) << b << L" ";
+  }
+  output << std::endl << L"----" << std::endl;
+  return output;
+}
+
+#endif
+
+
+LnkDllPort std::wostream& operator<<(std::wostream& output, Lnk& lnk)
+{
+  if (lnk.hasShellPath)
+  {
+    output << lnk.targetPath << std::endl;
+  }
+  else
+  {
+    for (auto const& id : lnk.idList)
+    {
+      output << id;
+    }
+  }
+  return output;
+}
+
+
+CLSID const& Lnk::getCLSID() const
+{
+  return header.clsid;
+}
+
+
+bool Lnk::isShortCut() const
+{
+  return getCLSID() == LnkHeader::cLnkCLSID;
+}
+
+void Lnk::setLnkPath(std::wstring const& wsLnkPath_)
+{
+  lnkPath = wsLnkPath_;
+}
+
+std::wstring const& Lnk::getLnkPath() const
+{
+  return lnkPath;
+}

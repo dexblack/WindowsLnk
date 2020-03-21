@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
-#include <guiddef.h>
-#include <WTypesbase.h>
+
+#include "framework.h"
 
 #include "LnkDllPort.h"
 

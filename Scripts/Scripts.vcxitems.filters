@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)set_git_hooks.cmd" />
+    <None Include="$(MSBuildThisFileDirectory)writeSolutionDir.cmd" />
+    <None Include="$(MSBuildThisFileDirectory)hooks\pre-commit">
+      <Filter>hooks</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="hooks">
+      <UniqueIdentifier>{c5d1487d-3874-4630-8566-bc0a7fc5706d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

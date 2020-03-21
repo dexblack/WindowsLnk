@@ -3,20 +3,20 @@
 #include "IDList.hpp"
 #include "istream_reader.hpp"
 
-
-LnkDllPort std::istream& operator>>(std::istream& input, IDList& my)
+std::istream& operator>>(std::istream& input, IDList& idList)
 {
-  istream_reader isr(input);
-  uint16_t n = 0U;
-  isr.read(n);
-  if (n > IDList::min_size)
+  istream_reader ir(input);
+  ir(idList.total_size);
+  if (idList.total_size > IDList::min_size)
   {
-    for (isr.read(n); input.good() && n > sizeof(uint16_t); isr.read(n))
+    uint16_t n = 0U, sum = 0U;
+    for (ir(n); input.good() && n > sizeof(n) && sum <= idList.total_size; ir(n))
     {
-      n -= sizeof(uint16_t);
+      sum += n;
+      n -= sizeof(n);
       ItemID item(n, ItemID::value_type());
       input.read(reinterpret_cast<char*>(item.data()), n);
-      my.itemIDs.push_back(item);
+      idList.push_back(item);
     }
   }
   return input;

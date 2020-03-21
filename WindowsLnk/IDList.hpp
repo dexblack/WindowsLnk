@@ -7,12 +7,26 @@
 #include "LnkDllPort.h"
 
 
-struct IDList
+#pragma warning(push)
+#pragma warning(disable : 4251)
+
+// Stream reader wrapper class.
+// This is a small intermediate step implementing
+// the basic SHITEMID block reading rules.
+// Parsing the data in detail comes later.
+//
+struct LnkDllPort IDList
+  : public std::vector<ItemID>
 {
-  // sizeof(uint16_t) * 2 + sum of all item sizes
-  static uint16_t const min_size{ sizeof(uint16_t) * 2 };
+  static uint16_t const min_size = sizeof(uint16_t) * 2;
 
-  ItemIDs itemIDs;
+  IDList()
+    : total_size()
+  {}
 
-  LnkDllPort friend std::istream& operator>>(std::istream& input, IDList& idlist);
+  uint16_t total_size;
+
+  friend std::istream& operator>>(std::istream& input, IDList& idlist);
 };
+
+#pragma warning(pop)
