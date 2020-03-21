@@ -1,4 +1,4 @@
 #include "pch.h" 
 #include "SolutionDir.h" 
  
-const std::string TestData::SolutionDir { "Z:\\dev\\projects\\WindowsLnk\\"}; 
+const std::string TestData::SolutionDir { "Run ..\\writeSolutionDir.cmd"}; 
