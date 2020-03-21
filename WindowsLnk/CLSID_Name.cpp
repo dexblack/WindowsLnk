@@ -63,7 +63,7 @@ CLSID_Name::CLSID_Name(
 {}
 
 #define CLSID_INST(name, clsid_string, name2) \
-static const CLSID_Name CLSID_##name{ clsid_string, #name, name2 }
+  CLSID_Name const CLSID_##name{ clsid_string, #name, name2 }
 
 CLSID_INST(ThisPC, "{20D04FE0-3AEA-1069-A2D8-08002B30309D}", "This PC");
 CLSID_INST(ControlPanel, "{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}", "Control Panel");
