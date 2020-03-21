@@ -71,10 +71,11 @@ std::istream& operator>>(std::istream& input, LnkHeader& lnkHeader);
 class LnkDllPort Lnk
 {
 private:
+  std::wstring lnkPath;   // Path to .LNK file.
   LnkHeader header;       // Initial fixed size header block.
   IDList idList;          // Variable length chain of link details.
   bool hasShellPath;      // Parsing result.
-  std::wstring wsPath;    // Parsed file system path.
+  std::wstring targetPath;// Parsed file system path.
   ShItemIDs shItemIds;    // Parsed IDList elements.
 
 public:
@@ -94,6 +95,10 @@ public:
   // Validation related member functions.
   CLSID const& getCLSID() const;
   bool isShortCut() const;
+
+  // Setters and getters.
+  void setLnkPath(std::wstring const&);
+  std::wstring const& getLnkPath() const;
 
 private:
   // Internal validation related member functions.

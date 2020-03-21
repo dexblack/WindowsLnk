@@ -23,10 +23,11 @@ const CLSID LnkHeader::cLnkCLSID
 // Base class LnkHeader takes care of basic initialisation.
 //
 Lnk::Lnk()
-  : header()
+  : lnkPath()
+  , header()
   , idList()
   , hasShellPath(false)
-  , wsPath()
+  , targetPath()
   , shItemIds()
 {}
 
@@ -154,7 +155,7 @@ LnkDllPort std::istream& operator>>(std::istream& input, Lnk& lnk)
   if (lnk.header.flags.hasLinkTargetIDList)
   {
     input >> lnk.idList;
-    lnk.hasShellPath = getPathFromIDList(input, lnk.idList.total_size, lnk.wsPath);
+    lnk.hasShellPath = getPathFromIDList(input, lnk.idList.total_size, lnk.targetPath);
     if (!lnk.hasShellPath)
     {
       ShItemType const itIs = parsePIDL(lnk.idList, lnk.shItemIds);
@@ -196,7 +197,7 @@ LnkDllPort std::wostream& operator<<(std::wostream& output, Lnk& lnk)
 {
   if (lnk.hasShellPath)
   {
-    output << lnk.wsPath << std::endl;
+    output << lnk.targetPath << std::endl;
   }
   else
   {
@@ -220,3 +221,12 @@ bool Lnk::isShortCut() const
   return getCLSID() == LnkHeader::cLnkCLSID;
 }
 
+void Lnk::setLnkPath(std::wstring const& wsLnkPath_)
+{
+  lnkPath = wsLnkPath_;
+}
+
+std::wstring const& Lnk::getLnkPath() const
+{
+  return lnkPath;
+}

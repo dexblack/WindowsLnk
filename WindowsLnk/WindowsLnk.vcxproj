@@ -167,6 +167,7 @@
     <ClInclude Include="Lnk.hpp" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ItemIDList.hpp" />
+    <ClInclude Include="string_convert.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CLSID.cpp" />
@@ -181,6 +182,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="ItemIDList.cpp" />
+    <ClCompile Include="string_convert.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

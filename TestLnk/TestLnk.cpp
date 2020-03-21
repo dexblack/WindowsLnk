@@ -61,7 +61,8 @@ namespace TestLnk
     {
       Lnk lnk;
 
-      std::ifstream ifsLnk(testDir + testFile + ".lnk", std::ifstream::binary);
+      lnk.setLnkPath(string_to_wstring(testDir + testFile + ".lnk"));
+      std::ifstream ifsLnk(lnk.getLnkPath(), std::ifstream::binary);
       ASSERT_TRUE(ifsLnk.good()) << "Failed to open test file: " << testFile;
 
       ifsLnk >> lnk;
