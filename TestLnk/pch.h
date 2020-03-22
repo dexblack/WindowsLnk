@@ -16,3 +16,11 @@
 
 #include <gtest/gtest.h>
 #include <fstream>
+#include <limits>
+
+#ifdef max
+# undef max
+#endif
+#ifdef min
+# undef min
+#endif

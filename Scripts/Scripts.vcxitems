@@ -14,7 +14,7 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)pre-commit" />
+    <None Include="$(MSBuildThisFileDirectory)hooks\pre-commit" />
     <None Include="$(MSBuildThisFileDirectory)set_git_hooks.cmd" />
     <None Include="$(MSBuildThisFileDirectory)writeSolutionDir.cmd" />
   </ItemGroup>
