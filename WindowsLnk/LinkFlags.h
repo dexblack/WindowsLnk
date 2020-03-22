@@ -1,7 +1,7 @@
 #pragma once
 #include "LnkDllPort.h"
 
-enum class LinkFlagBit
+enum class LinkFlagBit : uint32_t
 {
   eHasLinkTargetIDList,				
   eHasLinkInfo,						    
