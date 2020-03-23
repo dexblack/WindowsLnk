@@ -14,7 +14,7 @@ class RegexDllPort RegEx
   typedef wchar_t value_type;
   typedef std::basic_regex<value_type> regex_type;
 
-  regex_type const regex;
+  regex_type regex;
 
 public:
   typedef std::basic_string<value_type> string_type;
@@ -27,6 +27,9 @@ public:
     syntax_option_type const syntax_options = syntax_option_type::ECMAScript
   );
 
+  RegEx(RegEx const& that);
+  RegEx& operator=(RegEx const& that);
+
   bool operator()(
     string_type const&&,
     match_type&,
@@ -35,7 +38,7 @@ public:
   bool operator()(
     string_type const& str,
     match_type& match_results,
-    match_flag_type flags = std::regex_constants::match_any);
+    match_flag_type flags = std::regex_constants::match_any) const;
 };
 
 #pragma warning(pop)
