@@ -3,27 +3,36 @@
 #include <string>
 #include <vector>
 
+#include "Regex.h"
+#include "RegexDllPort.h"
 
-class RegexIncludeExclude
+#pragma warning(push)
+#pragma warning(disable : 4251)
+
+
+class RegexDllPort RegexIncludeExclude
 {
 public:
   typedef std::wstring string_type;
-  typedef std::vector<string_type> collection_type;
-    
+  typedef std::vector<string_type> strings_type;
+  typedef std::vector<RegEx> regexes;
+
   RegexIncludeExclude();
 
   void configure(
-    collection_type const& include_,
-    collection_type const& exclude_);
+    strings_type const& include_,
+    strings_type const& exclude_);
 
   bool keep(string_type const& path) const;
-  bool drop(string_type const& path) const
-  {
-    return !keep(path);
-  }
+  bool drop(string_type const& path) const;
 
 private:
-  collection_type include; // kept items regex patterns.
-  collection_type exclude; // dropped items regex patterns.
+  std::optional<bool> matched(
+    string_type const& path, regexes const& res) const;
+
+private:
+  regexes include; // kept items regex patterns.
+  regexes exclude; // dropped items regex patterns.
 };
 
+#pragma warning(pop)
