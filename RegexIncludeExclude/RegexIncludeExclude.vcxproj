@@ -159,6 +159,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="RegEx.h" />
     <ClInclude Include="RegexDllPort.h" />
+    <ClInclude Include="RegexIncludeExclude.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
@@ -169,6 +170,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="RegEx.cpp" />
+    <ClCompile Include="RegexIncludeExclude.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
