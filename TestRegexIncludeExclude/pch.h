@@ -7,22 +7,18 @@
 #ifndef PCH_H
 #define PCH_H
 
-#define LNK_DLL
-
-// add headers that you want to pre-compile here
 #define NOMINMAX
-
-#include <istream>
-#include <stdexcept>
-//#include <memory>
-#include <vector>
-#include <string>
-
-#include <assert.h>
-
 #include <obeds/configure.hpp>
 
-#include "framework.h"
+// add headers that you want to pre-compile here
 
+#include <string>
+#include <algorithm>
+
+
+#include <CppUnitTest.h>
+
+#include "TestData.h"
+#include "TestRegexIncludeExcludePort.h"
 
 #endif //PCH_H

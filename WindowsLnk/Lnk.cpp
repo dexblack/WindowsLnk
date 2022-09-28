@@ -168,7 +168,6 @@ LnkDllPort std::istream& operator>>(std::istream& input, Lnk& lnk)
   return input;
 }
 
-#if defined(_DEBUG)
 
 // A hex dump of the raw bytes in the SHITEMID data.
 //
@@ -189,8 +188,6 @@ std::wostream& operator<<(std::wostream& output, ItemID const& id)
   output << std::endl << L"----" << std::endl;
   return output;
 }
-
-#endif
 
 
 LnkDllPort std::wostream& operator<<(std::wostream& output, Lnk& lnk)

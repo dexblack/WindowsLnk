@@ -14,7 +14,7 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="dox">
-      <UniqueIdentifier>{fdd8c427-80f4-439a-b0ee-bcaa3b2d11a0}</UniqueIdentifier>
+      <UniqueIdentifier>{c2f2e3f2-a7fe-4c4e-9358-e9dcd87d47ac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -24,34 +24,31 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Lnk.hpp">
+    <ClInclude Include="RegEx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CLSID.hpp">
+    <ClInclude Include="RegexDllPort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LinkFileAttributes.h">
+    <ClInclude Include="RegexIncludeExclude.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LinkFlags.h">
+    <ClInclude Include="RegexIgnore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IDList.hpp">
+    <ClInclude Include="FilePathRegExPatterns.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LnkDllPort.h">
+    <ClInclude Include="RegExBaseTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="base_types.h">
+    <ClInclude Include="PatternToRegExStr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="istream_reader.hpp">
+    <ClInclude Include="PatternDiscriminator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ItemIDList.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CLSID_Name.hpp">
+    <ClInclude Include="obeds_lib_cfg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -62,19 +59,22 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Lnk.cpp">
+    <ClCompile Include="RegEx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CLSID.cpp">
+    <ClCompile Include="RegexIncludeExclude.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IDList.cpp">
+    <ClCompile Include="RegexIgnore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ItemIDList.cpp">
+    <ClCompile Include="FilePathRegExPatterns.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CLSID_Name.cpp">
+    <ClCompile Include="PatternToRegExStr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PatternDiscriminator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -88,10 +88,11 @@
     <None Include="dox\dox_style.css">
       <Filter>dox</Filter>
     </None>
+    <None Include="docs\html\index.html">
+      <Filter>dox</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="dox\dox.cfg">
-      <Filter>dox</Filter>
-    </CustomBuild>
+    <CustomBuild Include="dox\dox.cfg" />
   </ItemGroup>
 </Project>

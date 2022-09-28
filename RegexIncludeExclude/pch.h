@@ -7,22 +7,14 @@
 #ifndef PCH_H
 #define PCH_H
 
-#define LNK_DLL
+#include "obeds_lib_cfg.h" // must always be first
+#include "RegexDllPort.h"
 
 // add headers that you want to pre-compile here
-#define NOMINMAX
-
-#include <istream>
-#include <stdexcept>
-//#include <memory>
-#include <vector>
-#include <string>
-
-#include <assert.h>
-
-#include <obeds/configure.hpp>
-
 #include "framework.h"
+
+#include <string>
+#include <algorithm>
 
 
 #endif //PCH_H

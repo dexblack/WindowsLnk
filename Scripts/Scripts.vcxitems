@@ -15,6 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)hooks\pre-commit" />
+    <None Include="$(MSBuildThisFileDirectory)makedox.cmd" />
     <None Include="$(MSBuildThisFileDirectory)set_git_hooks.cmd" />
     <None Include="$(MSBuildThisFileDirectory)writeSolutionDir.cmd" />
   </ItemGroup>

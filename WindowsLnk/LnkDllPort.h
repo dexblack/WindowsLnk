@@ -1,7 +1,9 @@
 #pragma once
 
+#include <obeds/configure.hpp>
+
 #if defined(LNK_DLL)
-# define LnkDllPort   __declspec( dllexport )
+# define LnkDllPort OBEDS_SYMBOL_EXPORT
 #else
-# define LnkDllPort __declspec( dllimport )
+# define LnkDllPort OBEDS_SYMBOL_IMPORT
 #endif

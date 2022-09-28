@@ -85,7 +85,7 @@ bool getPathFromIDList(
 
   // Calculate the string's actual length and truncate.
   size = 0UL;
-  for (auto it = wsPath.begin(); ; ++it)
+  for (auto it = wsPath.begin(); it != wsPath.end(); ++it)
   {
     if (*it == std::wstring::value_type())
     {

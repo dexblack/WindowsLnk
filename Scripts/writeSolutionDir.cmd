@@ -12,7 +12,7 @@ rem echo Writing $(SolutionDir) to %output_file_new%
 echo #include "pch.h" > %output_file_new%
 echo #include "SolutionDir.h" >> %output_file_new%
 echo. >> %output_file_new%
-echo const std::string TestData::SolutionDir { "%solution_dir%"}; >> %output_file_new%
+echo const std::string TestData::SolutionDir { "%solution_dir%" }; >> %output_file_new%
 rem echo %output_file_new% created
 rem echo Checking for differences
 fc /L "%output_file%" "%output_file_new%" >NUL

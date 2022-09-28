@@ -6,6 +6,7 @@
     <None Include="$(MSBuildThisFileDirectory)hooks\pre-commit">
       <Filter>hooks</Filter>
     </None>
+    <None Include="$(MSBuildThisFileDirectory)makedox.cmd" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="hooks">

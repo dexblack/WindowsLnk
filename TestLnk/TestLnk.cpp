@@ -6,10 +6,10 @@
 #include <assert.h>
 
 #include <ShlObj.h>
+#include <obeds/string/convert.hpp>
 
 #include "Lnk.hpp"
 #include "SolutionDir.h"
-#include "string_convert.h"
 
 
 namespace TestLnk
@@ -61,7 +61,7 @@ namespace TestLnk
     {
       Lnk lnk;
 
-      lnk.setLnkPath(string_to_wstring(testDir + testFile + ".lnk"));
+      lnk.setLnkPath(obeds::string::convert::to<std::wstring>(testDir + testFile + ".lnk"));
       std::ifstream ifsLnk(lnk.getLnkPath(), std::ifstream::binary);
       ASSERT_TRUE(ifsLnk.good()) << "Failed to open test file: " << testFile;
 

@@ -43,16 +43,16 @@ struct LnkDllPort LnkHeader
     uint32_t file_attributes{ 0UL };
     LinkFileAttributes attributes;
   };
-  FILETIME creation_time{ 0UL, 0UL };
-  FILETIME access_time{ 0UL, 0UL };
-  FILETIME write_time{ 0UL, 0UL };
-  uint32_t file_size{ 0UL };
-  uint32_t icon_index = 0;
-  uint32_t show_command = SW_SHOWNORMAL;
-  uint16_t hot_key = 0;
-  uint16_t Reserved1 = 0;
-  uint32_t Reserved2 = 0;
-  uint32_t Reserved3 = 0;
+  FILETIME creation_time{ 0UL, 0UL }; //! of the file.
+  FILETIME access_time{ 0UL, 0UL }; //! last accessed.
+  FILETIME write_time{ 0UL, 0UL }; //! last written.
+  uint32_t file_size{ 0UL }; //! 32bit file size limit.
+  uint32_t icon_index = 0; //! unknown icon source.
+  uint32_t show_command = SW_SHOWNORMAL; //! Minimized et al.
+  uint16_t hot_key = 0; //! Shortcut hot keys! Who new?
+  uint16_t Reserved1 = 0; //! 4 l8r
+  uint32_t Reserved2 = 0; //! 4 l8r
+  uint32_t Reserved3 = 0; //! 4 l8r
 };
 
 std::istream& operator>>(std::istream& input, LnkHeader& lnkHeader);

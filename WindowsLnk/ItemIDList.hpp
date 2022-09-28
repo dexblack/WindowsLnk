@@ -20,7 +20,7 @@
 // 5. File system path information.
 // 6. etc.
 //
-enum class ShItemType
+enum class ShItemType : uint16_t
 {
   itIsUnknown,
   itIsCLSID,   // refer to CLSID_Name
