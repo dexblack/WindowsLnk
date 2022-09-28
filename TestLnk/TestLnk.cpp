@@ -17,7 +17,7 @@ namespace TestLnk
   static std::vector<char const*> const testFiles
   {
     "b0rken",
-    "1.72",
+    "1.80",
     "20151027_095211.jpg",
     "IEEE membership renewal",
     "IEEE Web Renewal 2007-8.htm",
@@ -26,7 +26,6 @@ namespace TestLnk
     "System (8)",
     "System and Security",
     "WindowsLnk.code-workspace",
-    "YXHe2JId-58388691217-shy4OLIv-58387910439.pdf",
     "_DSC0294.JPG",
   };
 

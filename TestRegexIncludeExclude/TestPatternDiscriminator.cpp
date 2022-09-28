@@ -8,7 +8,7 @@ namespace Microsoft::VisualStudio::CppUnitTestFramework
 {
   typedef RETest::strings_type strings_type;
 
-  template<> inline string_type ToString<PatternId>(PatternId const& pid)
+  template<> inline string_type ToString<ePatternType>(ePatternType const& pid)
   {
     string_type::value_type const* pidName[]{
       L"None",
@@ -19,7 +19,7 @@ namespace Microsoft::VisualStudio::CppUnitTestFramework
       L"PathNix",
     };
     string_type out{ L"{ " };
-    uint16_t x = pid;
+    PatternId x = static_cast<PatternId>(pid);
     int const N = sizeof(pidName) / sizeof(pidName[0]);
     for (int j = 0; j < N; ++j)
     {
